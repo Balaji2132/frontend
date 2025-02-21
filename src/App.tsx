@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import Select from "react-select";
 import axios from "axios";
+import { MultiValue } from "react-select";
+interface ResponseData {
+  numbers: string[];
+  alphabets: string[];
+  highest_alphabet: string[];
+}
+
+
+
 
 // Options for Multi-Select Dropdown
 const options = [
@@ -11,8 +20,8 @@ const options = [
 
 function App() {
   const [jsonInput, setJsonInput] = useState("");
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  const [responseData, setResponseData] = useState(null);
+  const [selectedFilters, setSelectedFilters] = useState<MultiValue<{ value: string; label: string }>>([]);
+  const [responseData, setResponseData] = useState<ResponseData | null>(null);
   const [error, setError] = useState("");
 
   // Set the document title to the roll number
@@ -64,13 +73,13 @@ function App() {
 
           <h3>Filtered Response</h3>
           {selectedFilters.some((f) => f.value === "numbers") && responseData.numbers.length > 0 && (
-            <p>Numbers: {responseData.numbers.join(", ")}</p>
+            <p>Numbers: {responseData?.numbers?.join(", ")}</p>
           )}
           {selectedFilters.some((f) => f.value === "alphabets") && responseData.alphabets.length > 0 && (
-            <p>Alphabets: {responseData.alphabets.join(", ")}</p>
+            <p>Alphabets: {responseData?.alphabets?.join(", ")}</p>
           )}
           {selectedFilters.some((f) => f.value === "highestAlphabet") && responseData.highest_alphabet.length > 0 && (
-            <p>Highest Alphabet: {responseData.highest_alphabet[0]}</p>
+            <p>Highest Alphabet: {responseData?.highest_alphabet[0]}</p>
           )}
         </>
       )}
